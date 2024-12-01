@@ -79,7 +79,6 @@ header {
     width: 20px;
 }
 
-/* GitHub à direita */
 .github_logo {
     display: flex;
     align-items: center;
@@ -113,6 +112,7 @@ header {
     right: 1rem;
     width: 5rem;
     height: 5rem;
+    cursor: pointer;
 }
 
 .button_add img:first-child {
@@ -122,10 +122,10 @@ header {
     object-fit: cover;
     position: absolute;
     z-index: 1;
-    transition: color 0.3s ease, transform 0.3s ease;
+    transition: transform 0.3s ease;
 }
 
-.button_add:hover img:first-child{
+.button_add:hover img:first-child {
     transform: scale(1.1);
 }
 
@@ -138,5 +138,117 @@ header {
 }
 
 .button_add:hover .svg {
-    transform: rotate(90deg); /* Rotação de 90 graus */
+    transform: rotate(90deg);
+}
+
+.box {
+    margin: 1rem;
+    padding: 0.5rem;
+    border-radius: 20px;
+    max-width: 500px;
+    min-width: 250px;
+    background-color: #3D444D;
+    color: #e1e4e8;
+    border: 1px solid #606163;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+/* Mostrar o botão de editar apenas quando o mouse passa sobre a box */
+.box:hover .button_edit {
+    display: block;
+}
+
+.button_edit:hover {
+    transform: scale(1.1);
+}
+
+.button_edit {
+    background-color: #3D444D;
+    border-radius: 50%;
+    width: 1.2rem;
+    height: 1.2rem;
+    padding: 10px;
+    border: 1px solid #606163;
+    position: absolute;
+    right: 0;
+    bottom: -25px;
+    display: none;
+    transition: transform 0.3s ease;
+}
+
+/* Botão de fechar: Posicionamento à esquerda do botão de editar */
+.box:hover .button_close {
+    right: 50px;  /* Muda para a esquerda do botão de editar */
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.button_close {
+    background-color: #3D444D;
+    border-radius: 50%;
+    width: 1rem;
+    height: 1rem;
+    padding: 10px;
+    border: 1px solid #606163;
+    position: absolute;
+    right: 0;
+    bottom: -25px;
+    display: none;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.button_close:hover {
+    background-color: #ff4444;
+    transform: scale(1.1);
+}
+
+/* Adicionar bordas e efeitos de hover */
+.box h2 {
+    margin: 0;
+    padding: 15px 10px;
+    border-radius: 20px;
+    border: 1px solid #606163;
+    background-color: #24292e;
+}
+
+.item {
+    display: flex;
+    flex-direction: column; /* Alinha as tarefas verticalmente */
+    gap: 1rem;
+    margin: 0.6rem;
+    padding: 0.4rem;
+    background-color: #31353a;
+    border-radius: 20px;
+    border: 1px solid #606163;
+}
+
+.task {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.task:first-child {
+    margin-top: 10px;
+}
+
+.task:last-child {
+    margin-bottom: 10px;
+}
+
+.task label {
+    padding: 5px;
+    border-radius: 5px;
+}
+
+input[type="checkbox"] {
+    cursor: pointer;
+    width: 1rem;
+    height: 1rem;
+}
+
+label {
+    cursor: pointer;
 }
