@@ -1,3 +1,43 @@
+// Definir as cores que serão usadas
+const colorSchemes = [
+    {
+        body: "#0D1117",
+        box: "#3D444D",
+        h2Bg: "#24292e",
+        p: "#3153a"
+    },
+    {
+        body: "#90B8E0",
+        box: "#93A9CF",
+        h2Bg: "#6D7D99",
+        p: "#607487"
+    },
+    {
+        body: "#E8C1BF",
+        box: "#FFCDD2",
+        h2Bg: "#EF9A9A",
+        p: "#B83732"
+    }
+];
+
+let currentColorIndex = 0;
+
+// Função para mudar as cores
+function changeColors() {
+    currentColorIndex = (currentColorIndex + 1) % colorSchemes.length;
+
+    const scheme = colorSchemes[currentColorIndex];
+
+    // Atualiza as variáveis CSS
+    document.documentElement.style.setProperty('--color-body', scheme.body);
+    document.documentElement.style.setProperty('--color-box', scheme.box);
+    document.documentElement.style.setProperty('--color-h2-bg', scheme.h2Bg);
+    document.documentElement.style.setProperty('--color-p', scheme.p);
+}
+
+// Adicionar evento ao botão de troca de cor
+document.getElementById('color-toggle').addEventListener('click', changeColors);
+
 // Função para habilitar edição do título e dos itens
 function enableEditMode(box) {
     const title = box.querySelector('h2');
