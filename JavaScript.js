@@ -4,12 +4,12 @@ const colorSchemes = [
         body: "#0D1117",
         box: "#3D444D",
         h2Bg: "#24292e",
-        p: "#3153a"
+        p: "#3d4046"
     },
     {
         body: "#90B8E0",
         box: "#93A9CF",
-        h2Bg: "#6D7D99",
+        h2Bg: "#7d8eaa",
         p: "#607487"
     },
     {
@@ -168,7 +168,7 @@ function addBox() {
 
     const label1 = document.createElement('label');
     label1.setAttribute('for', taskId1);
-    label1.textContent = 'Nome da tarefa';  // Texto da tarefa
+    label1.textContent = 'Nova tarefa';  // Texto da tarefa
 
     const checkbox2 = document.createElement('input');
     checkbox2.type = 'checkbox';
@@ -176,7 +176,7 @@ function addBox() {
 
     const label2 = document.createElement('label');
     label2.setAttribute('for', taskId2);
-    label2.textContent = 'Nome da tarefa';  // Texto da tarefa
+    label2.textContent = 'Nova tarefa';  // Texto da tarefa
 
     // Adicionando os elementos de checkbox e label dentro das tasks
     task1.appendChild(checkbox1);

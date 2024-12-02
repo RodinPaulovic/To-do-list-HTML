@@ -19,7 +19,7 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 0 20px;
-    background-color: #010409;
+    background-color: var(--color-p);
     border-bottom: 1px solid #3D444D;
     height: 60px;
 }
@@ -69,6 +69,7 @@ header {
 .opcoes p {
     margin: auto 8px auto 0;
     text-align: center;
+    text-decoration: none;
 }
 
 .opcoes img {
@@ -77,8 +78,12 @@ header {
     margin-right: 8px;
 }
 
+.opcoes a {
+    text-decoration: none;
+}
+
 .logo_cor {
-    color: #3D444D;
+    color: var(--color-h2-bg);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -270,15 +275,25 @@ label {
     flex-wrap: wrap;
     gap: 10px;
     padding: 10px;
-    border-left: 1px solid #ddd;
-    border-right: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
 }
 
 h3 {
     font-size: 2rem;
     margin: 20px 0 0 0;
     padding: 10px;
+    color: #ffffff;
+    position: relative;
+}
+
+h3::after {
+    content: '';
+    position: absolute;
+    left: 10px;
+    bottom: 7px;
+    background-color: #ffffff70;
+    height: 3px;
+    width: 400px;
+    border-radius: 5px;
 }
 
 .button_add_task {
