@@ -224,6 +224,8 @@ function removeBox(box) {
     box.remove(); // Remove a box do DOM
 }
 
+document.getElementById('trash-button').addEventListener('click', clearBoxes);
+
 function clearBoxes() {
     console.log("Função clearBoxes chamada.");
 
