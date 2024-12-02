@@ -11,6 +11,7 @@ body {
     font-family: Arial, sans-serif;
     background-color: var(--color-body);
     color: #24292e;
+    transition: all 0.3s ease;
 }
 
 header {
@@ -45,6 +46,7 @@ header {
 .opcoes {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 30px;
     height: 70%; 
 }
@@ -57,6 +59,7 @@ header {
     color: #e1e4e8;
     padding: 4px;
     border-radius: 4px;
+    justify-items: center;
 }
 
 .opcoes div:hover {
@@ -64,7 +67,8 @@ header {
 }
 
 .opcoes p {
-    margin: 0 8px 0 0;
+    margin: auto 8px auto 0;
+    text-align: center;
 }
 
 .opcoes img {
@@ -81,8 +85,8 @@ header {
     font-size: 5rem;
     margin-top: 0;
     margin-bottom: 0;
-    margin-right: 8px;
-    height: 25px;
+    padding: 0;
+    height: 20px;
     width: 20px;
 }
 
@@ -159,7 +163,7 @@ header {
     color: #e1e4e8;
     border: 1px solid #606163;
     position: relative;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 /* Mostrar o botão de editar apenas quando o mouse passa sobre a box */
@@ -204,7 +208,7 @@ header {
     bottom: -25px;
     display: none;
     cursor: pointer;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .button_close:hover {
@@ -259,4 +263,45 @@ input[type="checkbox"] {
 
 label {
     cursor: pointer;
+}
+
+.concluidos, .nao-concluidos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+h3 {
+    font-size: 2rem;
+    margin: 20px 0 0 0;
+    padding: 10px;
+}
+
+.button_add_task {
+    background-color: var(--color-h2-bg);
+    border-radius: 50%;
+    width: 1rem;
+    height: 1rem;
+    padding: 10px;
+    border: 1px solid #606163;
+    position: absolute;
+    bottom: -25px;
+    display: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.box:hover .button_add_task {
+    right: 97px;  /* Muda para a esquerda do botão de editar */
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.button_add_task:hover {
+    background-color: #2ea034;
+    transform: scale(1.1);
 }

@@ -123,9 +123,9 @@ function finishEditMode(box) {
     labels.forEach(label => {
         label.removeAttribute('contenteditable');
         
-        // Verifica se o label está vazio e substitui por "Nome da tarefa"
+        // Verifica se o label está vazio e substitui por "Nova tarefa"
         if (label.textContent.trim() === '') {
-            label.textContent = 'Nome da tarefa';
+            label.textContent = 'Nova tarefa';
         }
     });
 
@@ -159,7 +159,6 @@ function addBox() {
     const task2 = document.createElement('div');
     task2.classList.add('task');
 
-    // Gerar IDs exclusivos para as tarefas
     const taskId1 = `task${boxArea.children.length * 2 + 1}`;
     const taskId2 = `task${boxArea.children.length * 2 + 2}`;
 
@@ -189,7 +188,7 @@ function addBox() {
     // Adicionando as tasks dentro da área de itens
     item.appendChild(task1);
     item.appendChild(task2);
-    
+
     // Botão de editar
     const editButton = document.createElement('img');
     editButton.src = 'icones/editar.svg';
@@ -199,45 +198,84 @@ function addBox() {
         enableEditMode(box);
     });
 
-    // Botão de fechar
+    // Botão de fechar com confirmação
     const closeButton = document.createElement('img');
     closeButton.src = 'icones/fechar.svg';
     closeButton.alt = 'Botão fechar';
     closeButton.classList.add('button_close');
     closeButton.addEventListener('click', function() {
-        removeBox(box);
+        confirmAndRemoveBox(box);
     });
 
+    // Ícone de adicionar tarefa
+    const addTaskButton = document.createElement('img');
+    addTaskButton.src = 'icones/add_task.svg';  // Substitua pelo caminho do ícone
+    addTaskButton.alt = 'Adicionar tarefa';
+    addTaskButton.classList.add('button_add_task');
+    addTaskButton.addEventListener('click', function() {
+        addTask(item);  // Chama a função para adicionar uma nova tarefa
+    });
 
     // Adiciona os elementos na box
     box.appendChild(boxTitle);
     box.appendChild(item);
     box.appendChild(editButton);
     box.appendChild(closeButton);
+    box.appendChild(addTaskButton);
 
     // Adiciona a nova box na área
     boxArea.appendChild(box);
 }
 
-// Função para remover a box
-function removeBox(box) {
-    box.remove(); // Remove a box do DOM
+// Função de confirmação antes de remover
+function confirmAndRemoveBox(box) {
+    const userConfirmed = confirm("Tem certeza de que deseja excluir esta box?");
+    if (userConfirmed) {
+        box.remove(); // Remove a box caso o usuário confirme
+    }
 }
 
-document.getElementById('trash-button').addEventListener('click', clearBoxes);
+document.getElementById('trash-button').addEventListener('click', clear);
 
-function clearBoxes() {
-    console.log("Função clearBoxes chamada.");
+function clear() {
+    const userConfirmed = confirm("Tem certeza de que deseja excluir TODAS?");
+    if (userConfirmed) {
+        const boxes = document.querySelectorAll('.box');
+        boxes.forEach((box, index) => {
+            // Adiciona uma classe que ativa a transição de opacidade
+            box.style.opacity = 0;
 
-    // Seleciona o contêiner boxArea
-    const boxArea = document.getElementById('boxArea');
-    
-    // Verifica se o contêiner existe
-    if (boxArea) {
-        // Remove todo o conteúdo dentro do boxArea
-        boxArea.innerHTML = '';
-        console.log("Todo o conteúdo de boxArea foi removido.");
-    } else {
-        console.log("O contêiner boxArea não foi encontrado.");
+            // Aguarda a transição antes de remover a caixa
+            setTimeout(() => {
+                box.remove();
+            }, 300); // O tempo deve coincidir com a duração da transição no CSS
+        });
     }
+    
+}
+
+function addTask(itemContainer) {
+    // Cria o contêiner da nova tarefa
+    const task = document.createElement('div');
+    task.classList.add('task');
+
+    // Gera um ID único baseado no número atual de tarefas
+    const taskId = `task${document.querySelectorAll('.task').length + 1}`;
+
+    // Cria o checkbox da tarefa
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.id = taskId;
+
+    // Cria o rótulo (label) da tarefa
+    const label = document.createElement('label');
+    label.setAttribute('for', taskId);
+    label.textContent = 'Nova tarefa'; // Texto padrão para a tarefa
+
+    // Adiciona o checkbox e o label ao contêiner da tarefa
+    task.appendChild(checkbox);
+    task.appendChild(label);
+
+    // Adiciona a tarefa ao contêiner fornecido (itemContainer)
+    itemContainer.appendChild(task);
 }
