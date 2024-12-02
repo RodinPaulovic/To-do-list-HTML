@@ -223,3 +223,19 @@ function addBox() {
 function removeBox(box) {
     box.remove(); // Remove a box do DOM
 }
+
+function clearBoxes() {
+    console.log("Função clearBoxes chamada.");
+
+    // Seleciona o contêiner boxArea
+    const boxArea = document.getElementById('boxArea');
+    
+    // Verifica se o contêiner existe
+    if (boxArea) {
+        // Remove todo o conteúdo dentro do boxArea
+        boxArea.innerHTML = '';
+        console.log("Todo o conteúdo de boxArea foi removido.");
+    } else {
+        console.log("O contêiner boxArea não foi encontrado.");
+    }
+}
