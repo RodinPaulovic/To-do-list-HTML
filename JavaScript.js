@@ -22,6 +22,8 @@ const colorSchemes = [
 
 let currentColorIndex = 0;
 
+const boxAreas = [document.getElementById('boxArea1'), document.getElementById('boxArea2'), document.getElementById('boxArea3')];
+
 // Função para mudar as cores
 function changeColors() {
     currentColorIndex = (currentColorIndex + 1) % colorSchemes.length;
@@ -141,7 +143,6 @@ let currentArea = 1; // Define a área inicial
 let taskCounter = 1;  // Inicializando o contador global
 
 function addBox() {
-    const boxAreas = [document.getElementById('boxArea1'), document.getElementById('boxArea2'), document.getElementById('boxArea3')];
 
     // Criação da box
     const box = document.createElement('div');
@@ -257,7 +258,6 @@ function moveBox(box) {
     });
 
     const concluidoArea = document.querySelector('.concluidos');
-    const boxAreas = [document.getElementById('boxArea1'), document.getElementById('boxArea2'), document.getElementById('boxArea3')];
 
     // Movendo para "concluídos"
     if (allChecked) {
@@ -358,12 +358,6 @@ function clear() {
 }
 
 function testLargestBoxAreaAndMove() {
-    const boxAreas = [
-        document.getElementById('boxArea1'),
-        document.getElementById('boxArea2'),
-        document.getElementById('boxArea3')
-    ];
-
     // Obtém as alturas das áreas
     const heights = boxAreas.map(area => area.getBoundingClientRect().height);
     const largestIndex = heights.indexOf(Math.max(...heights));
