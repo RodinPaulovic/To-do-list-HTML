@@ -70,6 +70,7 @@ header {
     margin: auto 8px auto 0;
     text-align: center;
     text-decoration: none;
+    display: flex;
 }
 
 .opcoes img {
@@ -162,8 +163,6 @@ header {
     margin: 2rem;
     padding: 0.5rem;
     border-radius: 20px;
-    max-width: 90%;
-    min-width: 250px;
     background-color: var(--color-box);
     color: #e1e4e8;
     border: 1px solid #606163;
@@ -282,20 +281,26 @@ label {
 
 .nao-concluidos .box {
     transform: scale(1);
+    max-width: 90%;
+    min-width: 70%;
 }
 
 .concluidos {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
     gap: 5px;
     padding: 10px;
     align-items: flex-start;
+    flex-direction: row;
 }
 
 .concluidos .box{
     opacity: 0.8;
     transform: scale(0.8);
     margin: 0px;
+    max-width: 33%;
+    min-width: 25%;
 }
 
 h3 {
@@ -340,4 +345,43 @@ h3::after {
 .button_add_task:hover {
     background-color: #2ea034;
     transform: scale(1.1);
+}
+
+.areaDaAreas {
+    display: flex; 
+    justify-content: space-between; 
+    margin: 0 2rem;
+    flex-direction: row;
+}
+
+@media (max-width: 900px) {
+    .areaDaAreas {
+        flex-direction: column;
+    }
+
+    .nao-concluidos {
+        width: 100%;
+    }
+
+    .opcoes p {
+        margin: auto 8px auto 0;
+        text-align: center;
+        text-decoration: none;
+        display: none;
+    }
+
+    .opcoes .logo_cor {
+        display: flex;
+    }
+    .github-text {
+        display: none;
+    }
+
+    h3::after {
+        width: 300px;
+    }
+
+    .concluidos .box{
+        width: 100%;
+    }
 }

@@ -254,7 +254,7 @@ function moveBox(box) {
     const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
 
     checkboxes.forEach(checkbox => {
-        checkbox.disabled = true;
+        checkbox.disabled = false;
     });
 
     const concluidoArea = document.querySelector('.concluidos');
