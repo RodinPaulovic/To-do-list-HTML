@@ -162,7 +162,7 @@ header {
     margin: 2rem;
     padding: 0.5rem;
     border-radius: 20px;
-    max-width: 500px;
+    max-width: 90%;
     min-width: 250px;
     background-color: var(--color-box);
     color: #e1e4e8;
@@ -223,6 +223,7 @@ header {
 
 /* Adicionar bordas e efeitos de hover */
 .box h2 {
+    word-wrap: break-word;
     margin: 0;
     padding: 15px 10px;
     border-radius: 20px;
@@ -270,11 +271,31 @@ label {
     cursor: pointer;
 }
 
-.concluidos, .nao-concluidos {
+.nao-concluidos {
+    height: fit-content;
+    display: flex;
+    width: 33%;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.nao-concluidos .box {
+    transform: scale(1);
+}
+
+.concluidos {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 5px;
     padding: 10px;
+    align-items: flex-start;
+}
+
+.concluidos .box{
+    opacity: 0.8;
+    transform: scale(0.8);
+    margin: 0px;
 }
 
 h3 {

@@ -122,10 +122,11 @@ function finishEditMode(box) {
     }
     labels.forEach(label => {
         label.removeAttribute('contenteditable');
-        
-        // Verifica se o label está vazio e substitui por "Nova tarefa"
+    
+        // Verifica se o label está vazio
         if (label.textContent.trim() === '') {
-            label.textContent = 'Nova tarefa';
+            const task = label.parentElement; // O elemento pai do label, que é a task
+            task.remove(); // Remove a task inteira
         }
     });
 
@@ -136,31 +137,33 @@ function finishEditMode(box) {
     });
 }
 
-// Função para adicionar uma nova box
+let currentArea = 1; // Define a área inicial
+let taskCounter = 1;  // Inicializando o contador global
+
 function addBox() {
-    const boxArea = document.getElementById('boxArea');
+    const boxAreas = [document.getElementById('boxArea1'), document.getElementById('boxArea2'), document.getElementById('boxArea3')];
 
     // Criação da box
     const box = document.createElement('div');
     box.classList.add('box');
-    
+
     // Título da box
     const boxTitle = document.createElement('h2');
-    boxTitle.textContent = "Título";  // Título inicial da box
-    
+    boxTitle.textContent = "Título"; // Título inicial da box
+
     // Criando a área de tarefas
     const item = document.createElement('div');
     item.classList.add('item');
-    
+
     // Criando os elementos de tarefas
     const task1 = document.createElement('div');
     task1.classList.add('task');
-    
+
     const task2 = document.createElement('div');
     task2.classList.add('task');
 
-    const taskId1 = `task${boxArea.children.length * 2 + 1}`;
-    const taskId2 = `task${boxArea.children.length * 2 + 2}`;
+    const taskId1 = `task${taskCounter++}`;
+    const taskId2 = `task${taskCounter++}`;
 
     const checkbox1 = document.createElement('input');
     checkbox1.type = 'checkbox';
@@ -168,7 +171,7 @@ function addBox() {
 
     const label1 = document.createElement('label');
     label1.setAttribute('for', taskId1);
-    label1.textContent = 'Nova tarefa';  // Texto da tarefa
+    label1.textContent = 'Nova tarefa'; // Texto da tarefa
 
     const checkbox2 = document.createElement('input');
     checkbox2.type = 'checkbox';
@@ -176,12 +179,21 @@ function addBox() {
 
     const label2 = document.createElement('label');
     label2.setAttribute('for', taskId2);
-    label2.textContent = 'Nova tarefa';  // Texto da tarefa
+    label2.textContent = 'Nova tarefa'; // Texto da tarefa
+
+    // Adicionando eventos aos checkboxes
+    checkbox1.addEventListener('change', function () {
+        moveBox(box);
+    });
+
+    checkbox2.addEventListener('change', function () {
+        moveBox(box);
+    });
 
     // Adicionando os elementos de checkbox e label dentro das tasks
     task1.appendChild(checkbox1);
     task1.appendChild(label1);
-    
+
     task2.appendChild(checkbox2);
     task2.appendChild(label2);
 
@@ -194,7 +206,7 @@ function addBox() {
     editButton.src = 'icones/editar.svg';
     editButton.alt = 'Botão editar';
     editButton.classList.add('button_edit');
-    editButton.addEventListener('click', function() {
+    editButton.addEventListener('click', function () {
         enableEditMode(box);
     });
 
@@ -203,17 +215,17 @@ function addBox() {
     closeButton.src = 'icones/fechar.svg';
     closeButton.alt = 'Botão fechar';
     closeButton.classList.add('button_close');
-    closeButton.addEventListener('click', function() {
+    closeButton.addEventListener('click', function () {
         confirmAndRemoveBox(box);
     });
 
     // Ícone de adicionar tarefa
     const addTaskButton = document.createElement('img');
-    addTaskButton.src = 'icones/add_task.svg';  // Substitua pelo caminho do ícone
+    addTaskButton.src = 'icones/add_task.svg'; // Substitua pelo caminho do ícone
     addTaskButton.alt = 'Adicionar tarefa';
     addTaskButton.classList.add('button_add_task');
-    addTaskButton.addEventListener('click', function() {
-        addTask(item);  // Chama a função para adicionar uma nova tarefa
+    addTaskButton.addEventListener('click', function () {
+        addTask(item);
     });
 
     // Adiciona os elementos na box
@@ -223,23 +235,114 @@ function addBox() {
     box.appendChild(closeButton);
     box.appendChild(addTaskButton);
 
-    // Adiciona a nova box na área
-    boxArea.appendChild(box);
+    // Mapeia as alturas das áreas
+    const heights = boxAreas.map(area => area.getBoundingClientRect().height);
+
+    // Encontra o índice da menor altura
+    const smallestIndex = heights.indexOf(Math.min(...heights));
+
+    // Adiciona a box à área selecionada
+    boxAreas[smallestIndex].appendChild(box);
+
 }
 
-// Função de confirmação antes de remover
-function confirmAndRemoveBox(box) {
-    const userConfirmed = confirm("Tem certeza de que deseja excluir esta box?");
-    if (userConfirmed) {
-        box.remove(); // Remove a box caso o usuário confirme
+
+// Função para mover a box para "concluídos" ou "não concluídos"
+function moveBox(box) {
+    const checkboxes = box.querySelectorAll('input[type="checkbox"]');
+    const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
+
+    checkboxes.forEach((checkbox, index) => {
+
+    });
+
+    const concluidoArea = document.querySelector('.concluidos');
+    const boxAreas = [document.getElementById('boxArea1'), document.getElementById('boxArea2'), document.getElementById('boxArea3')];
+
+    // Movendo para "concluídos"
+    if (allChecked) {
+        concluidoArea.appendChild(box);
+
+        // Exibe o estado atual das áreas em uma linha
+        displayAreaStatus(boxAreas);
+
+        testLargestBoxAreaAndMove()
+    } 
+    // Movendo para "não concluídos" e ajustando a posição na próxima área disponível
+    else if (box.parentElement === concluidoArea) {        
+        // Mapeia as alturas das áreas
+        const heights = boxAreas.map(area => area.getBoundingClientRect().height);
+
+        // Encontra o índice da menor altura
+        const smallestIndex = heights.indexOf(Math.min(...heights));
+
+        // Adiciona a box à área selecionada
+        boxAreas[smallestIndex].appendChild(box);
+
+        testLargestBoxAreaAndMove()
     }
 }
+
+// Função para exibir o status das áreas no console em uma única linha
+function displayAreaStatus(boxAreas) {
+    let status = '';
+    boxAreas.forEach((area, areaIndex) => {
+        const boxes = area.querySelectorAll('.box');
+        if (boxes.length === 0) {
+            status += `|A${areaIndex + 1} BX| `; // Caso não haja box na área
+        } else {
+            boxes.forEach((box, boxIndex) => {
+                status += `|A${areaIndex + 1} B${boxIndex}| `; // Formato A1 B0, A2 B1, etc.
+            });
+        }
+    });
+    (status.trim()); // Remove espaço extra no final
+}
+
+
+
+
+// Função para adicionar uma nova tarefa
+function addTask(item) {
+    const task = document.createElement('div');
+    task.classList.add('task');
+
+    const taskId = `task${Date.now()}`; // ID único baseado no timestamp
+
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.id = taskId;
+
+    const label = document.createElement('label');
+    label.setAttribute('for', taskId);
+    label.textContent = 'Nova tarefa';
+
+    // Adicionando evento ao checkbox
+    checkbox.addEventListener('change', function () {
+        moveBox(item.closest('.box')); // Passa a referência da box ao evento
+    });
+
+    task.appendChild(checkbox);
+    task.appendChild(label);
+
+    item.appendChild(task);
+}
+
+// Função para confirmar antes de remover a box
+function confirmAndRemoveBox(box) {
+    if (confirm('Tem certeza que deseja excluir esta box?')) {
+        box.remove();
+        
+    }
+}
+
 
 document.getElementById('trash-button').addEventListener('click', clear);
 
 function clear() {
     const userConfirmed = confirm("Tem certeza de que deseja excluir TODAS?");
     if (userConfirmed) {
+        currentArea = 1;
         const boxes = document.querySelectorAll('.box');
         boxes.forEach((box, index) => {
             // Adiciona uma classe que ativa a transição de opacidade
@@ -254,28 +357,43 @@ function clear() {
     
 }
 
-function addTask(itemContainer) {
-    // Cria o contêiner da nova tarefa
-    const task = document.createElement('div');
-    task.classList.add('task');
+function testLargestBoxAreaAndMove() {
+    const boxAreas = [
+        document.getElementById('boxArea1'),
+        document.getElementById('boxArea2'),
+        document.getElementById('boxArea3')
+    ];
 
-    // Gera um ID único baseado no número atual de tarefas
-    const taskId = `task${document.querySelectorAll('.task').length + 1}`;
+    // Obtém as alturas das áreas
+    const heights = boxAreas.map(area => area.getBoundingClientRect().height);
+    const largestIndex = heights.indexOf(Math.max(...heights));
 
-    // Cria o checkbox da tarefa
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.id = taskId;
+    // Verifica se há elementos na área com maior altura
+    const largestArea = boxAreas[largestIndex];
+    const lastBox = largestArea.lastElementChild;
 
-    // Cria o rótulo (label) da tarefa
-    const label = document.createElement('label');
-    label.setAttribute('for', taskId);
-    label.textContent = 'Nova tarefa'; // Texto padrão para a tarefa
+    if (lastBox) {
+        // Calcula a altura sem o último elemento
+        const lastBoxHeight = lastBox.getBoundingClientRect().height;
+        const newHeight = heights[largestIndex] - lastBoxHeight;
 
-    // Adiciona o checkbox e o label ao contêiner da tarefa
-    task.appendChild(checkbox);
-    task.appendChild(label);
 
-    // Adiciona a tarefa ao contêiner fornecido (itemContainer)
-    itemContainer.appendChild(task);
+        // Verifica se ainda seria a maior
+        const otherHeights = heights.map((height, index) => index === largestIndex ? newHeight : height);
+        const wouldStillBeLargest = newHeight === Math.max(...otherHeights);
+
+        if (wouldStillBeLargest) {
+
+            // Encontra a área com menor altura
+            const smallestIndex = heights.indexOf(Math.min(...heights));
+
+            // Move a última box para a área com menor altura
+            boxAreas[smallestIndex].appendChild(lastBox);
+        } else {
+
+        }
+        
+    } else {
+
+    }
 }
